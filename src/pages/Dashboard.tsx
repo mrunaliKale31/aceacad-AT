@@ -20,8 +20,8 @@ const StatCard = ({ label, value, icon: Icon, color }: { label: string, value: n
   </GlassCard>
 );
 
-const DoubtItem = ({ doubt, key }: { doubt: Doubt, key?: string }) => (
-  <Link to="/doubts" key={key}>
+const DoubtItem = ({ doubt }: { doubt: Doubt, key?: string | number }) => (
+  <Link to="/doubts">
     <div className="flex items-center justify-between p-4 hover:bg-slate-50 rounded-xl transition-colors group cursor-pointer">
       <div className="flex items-center gap-4">
         <div className={cn(

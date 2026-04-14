@@ -1,9 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Navbar } from '@/src/components/Navbar';
 import { GlassCard } from '@/src/components/GlassCard';
-import { CheckCircle2, MessageSquare, Zap, BarChart3, Users, ArrowRight } from 'lucide-react';
+import { CheckCircle2, MessageSquare, Zap, BarChart3, Sparkles, ArrowRight } from 'lucide-react';
+import { useAuth } from '@/src/context/AuthContext';
 
 const FeatureCard = ({ icon: Icon, title, description }: { icon: any, title: string, description: string }) => (
   <GlassCard className="flex flex-col gap-4 p-8">
@@ -16,6 +17,16 @@ const FeatureCard = ({ icon: Icon, title, description }: { icon: any, title: str
 );
 
 export default function Home() {
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAiTryNow = () => {
+    if (isAuthenticated) {
+      navigate('/ai-tutor');
+    } else {
+      navigate('/login');
+    }
+  };
   return (
     <div className="min-h-screen relative overflow-hidden">
       <Navbar />
@@ -44,24 +55,27 @@ export default function Home() {
               Connect with tutors, track your progress, and master your subjects.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/register">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-primary text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-primary/30 flex items-center gap-2"
-                >
-                  Get Started Free <ArrowRight size={20} />
-                </motion.button>
-              </Link>
-              <Link to="/login">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-white text-slate-900 px-8 py-4 rounded-full font-bold text-lg border border-slate-200 shadow-sm"
-                >
-                  View Demo
-                </motion.button>
-              </Link>
+              {isAuthenticated ? (
+                <Link to="/dashboard">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-primary text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-primary/30 flex items-center gap-2"
+                  >
+                    Go to Dashboard <ArrowRight size={20} />
+                  </motion.button>
+                </Link>
+              ) : (
+                <Link to="/register">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-primary text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl shadow-primary/30 flex items-center gap-2"
+                  >
+                    Get Started Free <ArrowRight size={20} />
+                  </motion.button>
+                </Link>
+              )}
             </div>
           </motion.div>
 
@@ -143,6 +157,38 @@ export default function Home() {
               />
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* AI Feature Section */}
+      <section className="py-24 px-6 bg-primary/5">
+        <div className="max-w-7xl mx-auto">
+          <GlassCard className="p-12 border-primary/20 bg-white/50 backdrop-blur-xl overflow-hidden relative">
+            <div className="absolute top-0 right-0 p-10 opacity-10">
+              <Sparkles size={200} className="text-primary" />
+            </div>
+            <div className="relative z-10 max-w-2xl">
+              <div className="flex items-center gap-2 text-primary font-bold uppercase tracking-widest text-sm mb-4">
+                <Sparkles size={18} /> New Feature
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold font-display mb-6">
+                AI Answers Approved by Teachers
+              </h2>
+              <p className="text-xl text-slate-600 mb-10 leading-relaxed">
+                Get instant explanations that are verified for academic accuracy. 
+                Our AI models are fine-tuned with teacher-approved curriculum data 
+                to ensure you get the best learning experience.
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleAiTryNow}
+                className="bg-primary text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl shadow-primary/30 flex items-center gap-2"
+              >
+                Try AI Tutor Now <ArrowRight size={20} />
+              </motion.button>
+            </div>
+          </GlassCard>
         </div>
       </section>
 

@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import AskDoubt from './pages/AskDoubt';
 import MyDoubts from './pages/MyDoubts';
 import Profile from './pages/Profile';
+import AiTutor from './pages/AiTutor';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="/ask" element={<AskDoubt />} />
             <Route path="/doubts" element={<MyDoubts />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/ai-tutor" element={<AiTutor />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Router>

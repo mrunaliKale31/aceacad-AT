@@ -19,14 +19,14 @@ export async function getAiSuggestion(title: string, description: string, subjec
   }
 }
 
-export async function solveDoubt(title: string, description: string, subject: string) {
+export async function solveDoubt(title: string, description: string = "", subject: string = "General Academic") {
   try {
     const response = await ai.models.generateContent({
       model: "gemini-3.1-pro-preview",
       contents: `You are an expert tutor in ${subject}. 
       Solve the following student doubt in detail.
-      Title: "${title}"
-      Description: "${description}"
+      Title/Query: "${title}"
+      ${description ? `Description: "${description}"` : ""}
       Provide a step-by-step explanation, clear concepts, and the final answer.
       Use Markdown for formatting.`,
     });

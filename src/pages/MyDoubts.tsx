@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 import { useDoubts } from '@/src/context/DoubtContext';
 
-const DoubtCard = ({ doubt, onClick }: { doubt: Doubt, onClick: () => void, key?: string }) => (
+const DoubtCard = ({ doubt, onClick }: { doubt: Doubt, onClick: () => void, key?: string | number }) => (
   <GlassCard 
     className="flex flex-col h-full group cursor-pointer"
     onClick={onClick}

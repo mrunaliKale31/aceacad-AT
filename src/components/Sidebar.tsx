@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { LayoutDashboard, PlusCircle, BookOpen, Bell, User, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, PlusCircle, BookOpen, Bell, User, LogOut, Menu, X, Sparkles } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
 import { useAuth } from '@/src/context/AuthContext';
 
@@ -46,6 +46,7 @@ export const Sidebar = () => {
 
   const menuItems = [
     { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard' },
+    { icon: Sparkles, label: 'AI Tutor', href: '/ai-tutor' },
     { icon: PlusCircle, label: 'Ask Doubt', href: '/ask' },
     { icon: BookOpen, label: 'My Doubts', href: '/doubts' },
     { icon: Bell, label: 'Notifications', href: '/notifications' },

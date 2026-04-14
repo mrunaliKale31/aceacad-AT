@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
+import { useAuth } from '@/src/context/AuthContext';
 
 export const Navbar = () => {
+  const { isAuthenticated } = useAuth();
   const [isScrolled, setIsScrolled] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
@@ -44,18 +46,32 @@ export const Navbar = () => {
             </a>
           ))}
           <div className="flex items-center gap-4 ml-4">
-            <Link to="/login" className="text-slate-600 hover:text-primary font-medium px-4 py-2">
-              Login
-            </Link>
-            <Link to="/register">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-primary text-white px-6 py-2.5 rounded-full font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all"
-              >
-                Get Started
-              </motion.button>
-            </Link>
+            {isAuthenticated ? (
+              <Link to="/dashboard">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-primary text-white px-6 py-2.5 rounded-full font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all"
+                >
+                  Dashboard
+                </motion.button>
+              </Link>
+            ) : (
+              <>
+                <Link to="/login" className="text-slate-600 hover:text-primary font-medium px-4 py-2">
+                  Login
+                </Link>
+                <Link to="/register">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-primary text-white px-6 py-2.5 rounded-full font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all"
+                  >
+                    Get Started
+                  </motion.button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
@@ -86,10 +102,18 @@ export const Navbar = () => {
             </a>
           ))}
           <hr className="border-slate-100" />
-          <Link to="/login" className="text-slate-600 font-medium text-lg">Login</Link>
-          <Link to="/register" className="bg-primary text-white text-center py-3 rounded-xl font-bold">
-            Get Started
-          </Link>
+          {isAuthenticated ? (
+            <Link to="/dashboard" className="bg-primary text-white text-center py-3 rounded-xl font-bold">
+              Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link to="/login" className="text-slate-600 font-medium text-lg">Login</Link>
+              <Link to="/register" className="bg-primary text-white text-center py-3 rounded-xl font-bold">
+                Get Started
+              </Link>
+            </>
+          )}
         </motion.div>
       )}
     </nav>

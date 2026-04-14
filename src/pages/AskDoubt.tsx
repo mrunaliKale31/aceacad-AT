@@ -3,9 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { DashboardLayout } from '@/src/components/DashboardLayout';
 import { GlassCard } from '@/src/components/GlassCard';
 import { Subject, Priority } from '@/src/types';
-import { Upload, Send, Sparkles, AlertCircle, Loader2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
-import { getAiSuggestion } from '@/src/lib/gemini';
+import { Upload, Send, AlertCircle, Loader2 } from 'lucide-react';
+import { motion } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 import { useDoubts } from '@/src/context/DoubtContext';
 
@@ -17,21 +16,11 @@ export default function AskDoubt() {
   const [subject, setSubject] = React.useState<Subject>('Mathematics');
   const [priority, setPriority] = React.useState<Priority>('Medium');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [aiSuggestion, setAiSuggestion] = React.useState<string | null>(null);
-  const [isAiLoading, setIsAiLoading] = React.useState(false);
 
   const subjects: Subject[] = [
     'Mathematics', 'Physics', 'Chemistry', 'Biology', 
     'Computer Science', 'English', 'History', 'Other'
   ];
-
-  const handleAiHelp = async () => {
-    if (!title || !description) return;
-    setIsAiLoading(true);
-    const suggestion = await getAiSuggestion(title, description, subject);
-    setAiSuggestion(suggestion || null);
-    setIsAiLoading(false);
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -129,20 +118,11 @@ export default function AskDoubt() {
                   </div>
                 </div>
 
-                <div className="flex gap-4 pt-4">
-                  <button
-                    type="button"
-                    onClick={handleAiHelp}
-                    disabled={!title || !description || isAiLoading}
-                    className="flex-1 flex items-center justify-center gap-2 bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-slate-800 transition-all disabled:opacity-50"
-                  >
-                    {isAiLoading ? <Loader2 className="animate-spin" size={20} /> : <Sparkles size={20} />}
-                    AI Suggestion
-                  </button>
+                <div className="pt-4">
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="flex-[2] flex items-center justify-center gap-2 bg-primary text-white py-4 rounded-xl font-bold shadow-xl shadow-primary/30 hover:shadow-primary/40 transition-all disabled:opacity-50"
+                    className="w-full flex items-center justify-center gap-2 bg-primary text-white py-4 rounded-xl font-bold shadow-xl shadow-primary/30 hover:shadow-primary/40 transition-all disabled:opacity-50"
                   >
                     {isSubmitting ? <Loader2 className="animate-spin" size={20} /> : <Send size={20} />}
                     Submit Doubt
@@ -153,48 +133,19 @@ export default function AskDoubt() {
           </div>
 
           <div className="space-y-6">
-            <AnimatePresence mode="wait">
-              {aiSuggestion ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                >
-                  <GlassCard className="bg-slate-900 text-white border-none">
-                    <div className="flex items-center gap-2 text-primary mb-4">
-                      <Sparkles size={20} />
-                      <span className="font-bold uppercase tracking-widest text-xs">AI Assistant</span>
-                    </div>
-                    <div className="prose prose-invert prose-sm max-w-none">
-                      <p className="text-slate-300 leading-relaxed italic">
-                        "{aiSuggestion}"
-                      </p>
-                    </div>
-                    <div className="mt-6 pt-6 border-t border-slate-800 flex items-center justify-between">
-                      <span className="text-xs text-slate-500">Was this helpful?</span>
-                      <div className="flex gap-2">
-                        <button className="p-2 hover:bg-slate-800 rounded-lg text-slate-400">👍</button>
-                        <button className="p-2 hover:bg-slate-800 rounded-lg text-slate-400">👎</button>
-                      </div>
-                    </div>
-                  </GlassCard>
-                </motion.div>
-              ) : (
-                <GlassCard className="bg-primary/5 border-primary/10">
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
-                      <AlertCircle size={20} />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-slate-900 mb-1">Quick Tip</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed">
-                        Be as specific as possible in your description. Uploading a clear image of the problem helps our tutors and AI provide better answers.
-                      </p>
-                    </div>
-                  </div>
-                </GlassCard>
-              )}
-            </AnimatePresence>
+            <GlassCard className="bg-primary/5 border-primary/10">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
+                  <AlertCircle size={20} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 mb-1">Quick Tip</h4>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    Be as specific as possible in your description. Uploading a clear image of the problem helps our tutors and AI provide better answers.
+                  </p>
+                </div>
+              </div>
+            </GlassCard>
 
             <GlassCard>
               <h4 className="font-bold text-slate-900 mb-4">Live Preview</h4>
